@@ -1,6 +1,6 @@
 import { notesApi } from "@/api/notes";
+import { Note } from "@/common/types/Note";
 import { useEffect, useState } from "react";
-import 
 
 export function useNotes(leadId: string) {
   const [notes, setNotes] = useState<Note[]>([]);
