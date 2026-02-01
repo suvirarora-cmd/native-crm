@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
+import { THEME_MESSAGES } from '../../app/constants/messages';
 import { Theme, ThemeContextType } from '../../common/types/index';
-import { THEME_MESSAGES } from '../constants/messages';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 

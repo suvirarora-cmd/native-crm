@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Platform } from 'react-native';
-import { AuthResponse, LoginData, SignupData } from '../../common/types';
-import { ENV } from '../config/env.config';
-import { AUTH_MESSAGES } from '../constants/messages';
+import { ENV } from '../app/config/env.config';
+import { AUTH_MESSAGES } from '../app/constants/messages';
+import { AuthResponse, LoginData, SignupData } from '../common/types';
 
 const API_URL = ENV.API_URL;
 

@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import { authAPI } from '../api/auth';
 import { SignupData } from '../common/types/auth';
 import { CustomButton } from '../components/CustomButton';
 import { CustomInput } from '../components/CustomInput';
@@ -21,7 +22,6 @@ import { useTheme } from '../hooks/useTheme';
 import { AUTH_MESSAGES } from './constants/messages';
 import { getContainerStyles } from './styles/containerStyles';
 import { colors } from './styles/theme';
-import { authAPI } from './utils/api';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
