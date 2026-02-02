@@ -2,15 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { CustomButton } from '../components/CustomButton';
-import { ThemeToggle } from '../components/ThemeToggle';
-import { useAuth } from '../hooks/useAuth';
-import { useTheme } from '../hooks/useTheme';
-import { ALERT_STYLES, HOME_MESSAGES } from './constants/messages';
-import { getContainerStyles } from './styles/containerStyles';
-import { borderRadius, colors, fontSize, spacing } from './styles/theme';
-
+import { Alert, Text, View } from 'react-native';
+import { CustomButton } from '../../components/CustomButton';
+import { ThemeToggle } from '../../components/ThemeToggle';
+import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
+import { ALERT_STYLES, HOME_MESSAGES } from '../constants/messages';
+import { getContainerStyles } from '../styles/containerStyles';
+import styles from '../styles/homePage.style';
+import { colors, spacing } from '../styles/theme';
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const { user, logout, isLoading } = useAuth();
@@ -19,7 +19,7 @@ const HomeScreen: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.replace('/');
+      router.replace('./login');
     }
   }, [user, isLoading, router]);
 
@@ -34,7 +34,7 @@ const HomeScreen: React.FC = () => {
           style: ALERT_STYLES.DESTRUCTIVE,
           onPress: async () => {
             await logout();
-            router.replace('/');
+            router.replace('./login');
           },
         },
       ]
@@ -124,59 +124,5 @@ const HomeScreen: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-  },
-  welcomeSection: {
-    alignItems: 'center',
-    marginBottom: spacing.xl,
-  },
-  iconCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing.lg,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  welcomeText: {
-    fontSize: fontSize.lg,
-    fontWeight: '500',
-    marginBottom: spacing.sm,
-  },
-  adminBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#A78BFA',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.full,
-    marginTop: spacing.sm,
-  },
-  adminText: {
-    color: 'white',
-    fontWeight: '600',
-    marginLeft: spacing.sm,
-  },
-  infoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: spacing.md,
-  },
-  infoText: {
-    marginLeft: spacing.sm + 4,
-    fontSize: fontSize.base,
-  },
-});
 
 export default HomeScreen;

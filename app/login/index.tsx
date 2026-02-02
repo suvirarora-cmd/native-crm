@@ -13,16 +13,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { authAPI } from '../api/auth';
-import { LoginData } from '../common/types/auth';
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { ThemeToggle } from '../components/ThemeToggle';
-import { useAuth } from '../hooks/useAuth';
-import { useTheme } from '../hooks/useTheme';
-import { AUTH_MESSAGES } from './constants/messages';
-import { getContainerStyles } from './styles/containerStyles';
-import { colors } from './styles/theme';
+import { authAPI } from '../../api/auth';
+import { LoginData } from '../../common/types/auth';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomInput } from '../../components/CustomInput';
+import { ThemeToggle } from '../../components/ThemeToggle';
+import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
+import { AUTH_MESSAGES } from '../constants/messages';
+import { getContainerStyles } from '../styles/containerStyles';
+import { colors } from '../styles/theme';
+import styles from '../styles/loginPage.style';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const LoginScreen: React.FC = () => {
       setLoading(true);
       const response = await authAPI.login(data);
       await login(response.access_token, response.user);
-      router.replace('/home');
+      router.replace('./home');
     } catch (error: any) {
       Alert.alert(
         AUTH_MESSAGES.ERRORS.LOGIN_FAILED,
@@ -163,21 +164,5 @@ const LoginScreen: React.FC = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  linkContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  linkText: {
-    fontSize: 14,
-  },
-  linkButton: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-});
 
 export default LoginScreen;

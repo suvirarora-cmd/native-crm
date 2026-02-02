@@ -13,15 +13,16 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { authAPI } from '../api/auth';
-import { SignupData } from '../common/types/auth';
-import { CustomButton } from '../components/CustomButton';
-import { CustomInput } from '../components/CustomInput';
-import { ThemeToggle } from '../components/ThemeToggle';
-import { useTheme } from '../hooks/useTheme';
-import { AUTH_MESSAGES } from './constants/messages';
-import { getContainerStyles } from './styles/containerStyles';
-import { colors } from './styles/theme';
+import { authAPI } from '../../api/auth';
+import { SignupData } from '../../common/types/auth';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomInput } from '../../components/CustomInput';
+import { ThemeToggle } from '../../components/ThemeToggle';
+import { useTheme } from '../../hooks/useTheme';
+import { AUTH_MESSAGES } from '../constants/messages';
+import { getContainerStyles } from '../styles/containerStyles';
+import { colors } from '../styles/theme';
+import styles from '../styles/signupPage.style';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
@@ -53,7 +54,7 @@ const SignupScreen: React.FC = () => {
       Alert.alert(
         'Success!',
         `${AUTH_MESSAGES.SUCCESS.ACCOUNT_CREATED} ${response.user.role === 'admin' ? AUTH_MESSAGES.SUCCESS.ADMIN_ACCOUNT : AUTH_MESSAGES.SUCCESS.WELCOME}`,
-        [{ text: AUTH_MESSAGES.PROMPT.OK, onPress: () => router.push('/') }]
+        [{ text: AUTH_MESSAGES.PROMPT.OK, onPress: () => router.push('./home') }]
       );
     } catch (error: any) {
       Alert.alert(
@@ -236,21 +237,5 @@ const SignupScreen: React.FC = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  linkContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  linkText: {
-    fontSize: 14,
-  },
-  linkButton: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-});
 
 export default SignupScreen;
