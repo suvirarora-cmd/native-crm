@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 export const buttonStyles = {
   base: "px-6 py-4 rounded-2xl flex-row items-center justify-center shadow-lg",
   primary: "bg-gradient-to-r from-blue-500 to-purple-600",
@@ -10,3 +11,11 @@ export const buttonTextStyles = {
   primary: "text-white",
   secondary: "text-gray-800 dark:text-gray-200",
 };
+
+export const localStyles = StyleSheet.create({
+  iconTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

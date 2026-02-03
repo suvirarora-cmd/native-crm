@@ -4,7 +4,7 @@ import { getButtonStyles } from '../app/styles/buttonStyles';
 import { themeColor } from "../app/styles/theme";
 import { CustomButtonProps } from '../common/types/components';
 import { useTheme } from '../hooks/useTheme';
-
+import { localStyles } from './styles/buttonStyles';
 export const CustomButton: React.FC<CustomButtonProps> = ({
   title,
   onPress,
@@ -45,11 +45,3 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
     </TouchableOpacity>
   );
 };
-
-const localStyles = StyleSheet.create({
-  iconTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
