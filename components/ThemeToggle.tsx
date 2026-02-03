@@ -1,9 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { borderRadius, colors, spacing } from '../app/styles/theme';
 import { useTheme } from '../hooks/useTheme';
-
+import { borderRadius, colors, spacing } from '../common/styles/theme';
 export const ThemeToggle: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
 

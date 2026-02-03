@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { getInputStyles } from '../app/styles/inputStyles';
-import { colors } from '../app/styles/theme';
+
 import { useTheme } from '../hooks/useTheme';
+import { colors } from '@/common/styles/theme';
+import { getInputStyles } from '@/common/styles/inputStyles';
 
 interface CustomInputProps {
   label: string;

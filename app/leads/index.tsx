@@ -39,7 +39,7 @@ export default function LeadsListScreen() {
           renderItem={({ item }) => (
             <LeadCard 
               lead={item} 
-              onPress={(id) => router.push(`/leads/${id}`)} 
+              onPress={(id) => router.push(`/leads/${id}` as any)}
             />
           )}
           contentContainerStyle={styles.listContent}

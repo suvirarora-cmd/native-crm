@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { clearTokenFromStorage, getTokenFromStorage, setTokenInStorage } from '../../api/auth';
-import { AUTH_MESSAGES } from '../../app/constants/messages';
+import { AUTH_MESSAGES } from '../../common/constants/messages'
 import { AuthContextType, User } from '../../common/types/index';
 
 const getStorageManager = () => {

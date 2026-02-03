@@ -19,10 +19,11 @@ import { CustomButton } from '../../components/CustomButton';
 import { CustomInput } from '../../components/CustomInput';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { useTheme } from '../../hooks/useTheme';
-import { AUTH_MESSAGES } from '../constants/messages';
-import { getContainerStyles } from '../styles/containerStyles';
-import { colors } from '../styles/theme';
-import styles from '../styles/signupPage.style';
+import { getContainerStyles } from '@/common/styles/containerStyles';
+import { AUTH_MESSAGES } from '@/common/constants';
+import { colors } from '@/common/styles/theme';
+import styles from '@/common/styles/signupPage.style';
+
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();

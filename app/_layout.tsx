@@ -8,9 +8,12 @@ export default function RootLayout() {
     <ThemeProvider>
       <AuthProvider>
         <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="login" />
-          <Stack.Screen name="signup" />
-          <Stack.Screen name="home" />
+         
+          <Stack.Screen name="login/index" options={{ headerShown: false }} />
+          <Stack.Screen name="signup/index" options={{ headerShown: false }} />
+          <Stack.Screen name="home/index" options={{ headerShown: false }} />
+          <Stack.Screen name="leads/index" options={{ title: 'My Leads' }} />
+          <Stack.Screen name="leads/[id]" options={{ title: 'Lead Details' }} />
         </Stack>
       </AuthProvider>
     </ThemeProvider>

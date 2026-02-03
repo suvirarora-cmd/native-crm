@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -20,10 +19,10 @@ import { CustomInput } from '../../components/CustomInput';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
-import { AUTH_MESSAGES } from '../constants/messages';
-import { getContainerStyles } from '../styles/containerStyles';
-import { colors } from '../styles/theme';
-import styles from '../styles/loginPage.style';
+import { getContainerStyles } from '@/common/styles/containerStyles';
+import { AUTH_MESSAGES } from '@/common/constants';
+import { colors } from '@/common/styles/theme';
+import styles from '@/common/styles/loginPage.style';
 
 const LoginScreen: React.FC = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { THEME_MESSAGES } from '../app/constants/messages';
 import { ThemeContext } from './context/ThemeContext';
+import { THEME_MESSAGES } from '@/common/constants';
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);

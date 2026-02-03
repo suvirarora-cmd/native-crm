@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { AUTH_MESSAGES } from '../app/constants/messages';
 import { AuthContext } from './context/AuthContext';
+import { AUTH_MESSAGES } from '@/common/constants';
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

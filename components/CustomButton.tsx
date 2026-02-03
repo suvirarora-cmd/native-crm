@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
-import { getButtonStyles } from '../app/styles/buttonStyles';
 import { useTheme } from '../hooks/useTheme';
+import { getButtonStyles } from '@/common/styles/buttonStyles';
 
 interface CustomButtonProps {
   title: string;
