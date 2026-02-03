@@ -7,15 +7,18 @@ import { CustomButton } from '../../components/CustomButton';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
+import { COMMON_COLORS, ICON_NAMES, ICON_SIZES, STATUS_BAR_STYLES, THEME_MODES } from '../constants';
 import { ALERT_STYLES, HOME_MESSAGES } from '../constants/messages';
+import { commonStyles } from '../styles/commonStyles';
 import { getContainerStyles } from '../styles/containerStyles';
-import styles from '../styles/homePage.style';
-import { colors, spacing } from '../styles/theme';
+import { getHomeStyles } from '../styles/homePage.style';
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const { user, logout, isLoading } = useAuth();
   const { isDark } = useTheme();
   const containerStyles = getContainerStyles(isDark);
+  const styles = getHomeStyles(isDark);
+  const themeMode = isDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -47,7 +50,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={containerStyles.container}>
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <StatusBar style={isDark ? STATUS_BAR_STYLES.LIGHT : STATUS_BAR_STYLES.DARK} />
       
       {/* Theme Toggle */}
       <View style={containerStyles.themeToggle}>
@@ -57,67 +60,62 @@ const HomeScreen: React.FC = () => {
       <View style={styles.content}>
         {/* Welcome Section */}
         <View style={styles.welcomeSection}>
-          <View
-            style={[
-              styles.iconCircle,
-              { backgroundColor: colors[isDark ? 'dark' : 'light'].primary },
-            ]}
-          >
+          <View style={styles.iconCircle}>
             <Ionicons
-              name={user.role === 'admin' ? 'shield-checkmark' : 'home'}
-              size={50}
-              color="white"
+              name={user.role === 'admin' ? ICON_NAMES.SHIELD_CHECKMARK : ICON_NAMES.HOME}
+              size={ICON_SIZES.JUMBO}
+              color={COMMON_COLORS.WHITE}
             />
           </View>
           
-          <Text style={[containerStyles.header, { marginBottom: 8 }]}>
+          <Text style={containerStyles.header}>
             Home
           </Text>
           
-          <Text style={[styles.welcomeText, { color: colors[isDark ? 'dark' : 'light'].text }]}>
+          <Text style={styles.welcomeText}>
             Welcome, {user.name}!
           </Text>
           
           {user.role === 'admin' && (
             <View style={styles.adminBadge}>
-              <Ionicons name="star" size={16} color="white" />
+              <Ionicons name={ICON_NAMES.STAR} size={ICON_SIZES.SMALL} color={COMMON_COLORS.WHITE} />
               <Text style={styles.adminText}>Admin User</Text>
             </View>
           )}
         </View>
 
         {/* User Info Card */}
-        <View style={[containerStyles.card, { marginBottom: 24 }]}>
+        <View style={[containerStyles.card, commonStyles.marginBottom24]}>
           <View style={styles.infoRow}>
             <Ionicons
-              name="mail"
-              size={20}
-              color={colors[isDark ? 'dark' : 'light'].textSecondary}
+              name={ICON_NAMES.MAIL}
+              size={ICON_SIZES.MEDIUM}
+              color={containerStyles.subheader.color}
             />
-            <Text style={[styles.infoText, { color: colors[isDark ? 'dark' : 'light'].text }]}>
+            <Text style={styles.infoText}>
               {user.email}
             </Text>
           </View>
           
           <View style={styles.infoRow}>
             <Ionicons
-              name="person"
-              size={20}
-              color={colors[isDark ? 'dark' : 'light'].textSecondary}
+              name={ICON_NAMES.PERSON}
+              size={ICON_SIZES.MEDIUM}
+              color={containerStyles.subheader.color}
             />
-            <Text style={[styles.infoText, { color: colors[isDark ? 'dark' : 'light'].text }]}>
+            <Text style={styles.infoText}>
               {user.role === 'admin' ? 'Administrator' : 'Regular User'}
             </Text>
           </View>
         </View>
 
         {/* Logout Button */}
-        <View style={{ paddingHorizontal: spacing.md }}>
+        <View style={commonStyles.paddingHorizontalMd}>
           <CustomButton
             title="Logout"
             onPress={handleLogout}
             variant="secondary"
-            icon={<Ionicons name="log-out" size={20} color={colors[isDark ? 'dark' : 'light'].text} />}
+            icon={<Ionicons name={ICON_NAMES.LOG_OUT} size={ICON_SIZES.MEDIUM} color={containerStyles.header.color} />}
           />
         </View>
       </View>

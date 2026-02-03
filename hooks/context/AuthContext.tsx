@@ -1,27 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
-import { clearTokenFromStorage, getTokenFromStorage, setTokenInStorage } from '../../api/auth';
+import { clearTokenFromStorage, getTokenFromStorage, setTokenInStorage } from '../../api/storage';
 import { AUTH_MESSAGES } from '../../app/constants/messages';
 import { AuthContextType, User } from '../../common/types/index';
 
 const getStorageManager = () => {
-  if (typeof AsyncStorage !== 'undefined' && AsyncStorage !== null) {
-    return AsyncStorage;
-  }
-  if (Platform.OS === 'web') {
-    return {
-      setItem: async (key: string, value: string) => {
-        localStorage.setItem(key, value);
-      },
-      getItem: async (key: string) => {
-        return localStorage.getItem(key);
-      },
-      removeItem: async (key: string) => {
-        localStorage.removeItem(key);
-      }
-    };
-  }
   return AsyncStorage;
 };
 

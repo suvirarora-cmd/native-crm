@@ -58,6 +58,16 @@ export const fontSize = {
   xxxl: 32,
 };
 
+export const themeColor={
+  white:'#FFFFFF',
+  black:'#000000',
+  grayLight:'#F3F4F6',
+  grayDark:'#4B5563',
+  red:'#EF4444',
+  green:'#10B981',
+  blue:'#3B82F6',
+}
+
 export const fontWeight = {
   normal: '400' as any,
   medium: '500' as any,

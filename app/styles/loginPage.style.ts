@@ -1,19 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { colors, fontSize, fontWeight, spacing } from './theme';
 
-const styles = StyleSheet.create({
-  linkContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 24,
-  },
-  linkText: {
-    fontSize: 14,
-  },
-  linkButton: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-});
+export const getLoginStyles = (isDark: boolean) =>
+  StyleSheet.create({
+    linkContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: spacing.lg,
+    },
+    linkText: {
+      fontSize: fontSize.sm,
+      color: colors[isDark ? 'dark' : 'light'].textSecondary,
+    },
+    linkButton: {
+      fontSize: fontSize.sm,
+      fontWeight: fontWeight.semibold,
+      color: colors[isDark ? 'dark' : 'light'].primary,
+    },
+  });
 
-export default styles;
+export default getLoginStyles;

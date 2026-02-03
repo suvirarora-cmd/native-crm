@@ -3,14 +3,13 @@ import React, { createContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { THEME_MESSAGES } from '../../app/constants/messages';
 import { Theme, ThemeContextType } from '../../common/types/index';
-
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export { ThemeContext };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemTheme = useColorScheme();
-  const [theme, setTheme] = useState<Theme>(systemTheme === 'dark' ? 'dark' : 'light');
+  const [theme, setTheme] = useState<Theme>(systemTheme === THEME_MESSAGES.DARK ? THEME_MESSAGES.DARK : THEME_MESSAGES.LIGHT);
 
   useEffect(() => {
     loadTheme();
@@ -18,7 +17,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const loadTheme = async () => {
     try {
-      const savedTheme = await AsyncStorage.getItem('theme');
+      const savedTheme = await AsyncStorage.getItem(THEME_MESSAGES.THEME);
       if (savedTheme) {
         setTheme(savedTheme as Theme);
       }
@@ -29,8 +28,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const toggleTheme = async () => {
     try {
-      const newTheme = theme === 'light' ? 'dark' : 'light';
-      await AsyncStorage.setItem('theme', newTheme);
+      const newTheme = theme === THEME_MESSAGES.DARK ? THEME_MESSAGES.LIGHT : THEME_MESSAGES.DARK;
+      await AsyncStorage.setItem(THEME_MESSAGES.THEME, newTheme);
       setTheme(newTheme);
     } catch (error) {
       console.error(THEME_MESSAGES.SAVING_THEME, error);
@@ -38,7 +37,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === 'dark' }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isDark: theme === THEME_MESSAGES.DARK }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,21 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ICON_NAMES, ICON_SIZES } from '../app/constants';
 import { getInputStyles } from '../app/styles/inputStyles';
 import { colors } from '../app/styles/theme';
+import { CustomInputProps } from '../common/types/components';
 import { useTheme } from '../hooks/useTheme';
-
-interface CustomInputProps {
-  label: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  secureTextEntry?: boolean;
-  error?: string;
-  keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  required?: boolean;
-}
 
 export const CustomInput: React.FC<CustomInputProps> = ({
   label,
@@ -62,8 +52,8 @@ export const CustomInput: React.FC<CustomInputProps> = ({
             onPress={() => setShowPassword(!showPassword)}
           >
             <Ionicons
-              name={showPassword ? 'eye-off-outline' : 'eye-outline'}
-              size={24}
+              name={showPassword ? ICON_NAMES.EYE_OFF_OUTLINE : ICON_NAMES.EYE_OUTLINE}
+              size={ICON_SIZES.LARGE}
               color={colors[isDark ? 'dark' : 'light'].textSecondary}
             />
           </TouchableOpacity>

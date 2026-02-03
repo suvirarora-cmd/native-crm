@@ -27,6 +27,9 @@ export const AUTH_MESSAGES = {
 
 // Theme Messages
   export const THEME_MESSAGES = {
+    THEME:'theme',
+    DARK:'dark',
+    LIGHT: 'light',
     LOADING_THEME: 'Error loading theme:',
     SAVING_THEME: 'Error saving theme:',
     THEME_CONTEXT_ERROR: 'useTheme must be used within a ThemeProvider',

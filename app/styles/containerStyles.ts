@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, spacing, borderRadius, fontSize } from './theme';
+import { borderRadius, colors, fontSize, spacing } from './theme';
 
 export const getContainerStyles = (isDark: boolean) =>
   StyleSheet.create({
@@ -49,6 +49,16 @@ export const getContainerStyles = (isDark: boolean) =>
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: spacing.md,
+      backgroundColor: colors[isDark ? 'dark' : 'light'].primary,
+    },
+    iconCircleSecondary: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: spacing.md,
+      backgroundColor: colors[isDark ? 'dark' : 'light'].secondary,
     },
     themeToggle: {
       position: 'absolute',

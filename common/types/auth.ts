@@ -10,12 +10,23 @@ export interface LoginData {
   password: string;
 }
 
+export interface LoginScreenProps {}
+
+export interface FormState {
+  loading: boolean;
+}
+
 export interface SignupData {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
   adminSecretKey?: string;
+}
+
+export interface IAuthAPI {
+  login(data: LoginData): Promise<AuthResponse>;
+  signup(data: SignupData): Promise<AuthResponse>;
 }
 
 export interface AuthResponse {

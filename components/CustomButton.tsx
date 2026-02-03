@@ -1,16 +1,9 @@
 import React from 'react';
-import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getButtonStyles } from '../app/styles/buttonStyles';
+import { themeColor } from "../app/styles/theme";
+import { CustomButtonProps } from '../common/types/components';
 import { useTheme } from '../hooks/useTheme';
-
-interface CustomButtonProps {
-  title: string;
-  onPress: () => void;
-  variant?: 'primary' | 'secondary';
-  disabled?: boolean;
-  loading?: boolean;
-  icon?: React.ReactNode;
-}
 
 export const CustomButton: React.FC<CustomButtonProps> = ({
   title,
@@ -22,6 +15,11 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
 }) => {
   const { isDark } = useTheme();
   const styles = getButtonStyles(isDark);
+
+  const getActivityIndicatorColor = () => {
+    if (variant === 'primary') return themeColor.white;
+    return isDark ? themeColor.white : themeColor.black;
+  };
 
   return (
     <TouchableOpacity
@@ -35,9 +33,9 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
       activeOpacity={0.8}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'primary' ? '#ffffff' : isDark ? '#ffffff' : '#000000'} />
+        <ActivityIndicator color={getActivityIndicatorColor()} />
       ) : (
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={localStyles.iconTextContainer}>
           {icon && <View style={styles.iconContainer}>{icon}</View>}
           <Text style={[styles.text, variant === 'primary' ? styles.primaryText : styles.secondaryText]}>
             {title}
@@ -47,3 +45,11 @@ export const CustomButton: React.FC<CustomButtonProps> = ({
     </TouchableOpacity>
   );
 };
+
+const localStyles = StyleSheet.create({
+  iconTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

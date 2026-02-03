@@ -1,6 +1,69 @@
 export {
-    ALERT_STYLES, AUTH_MESSAGES, HOME_MESSAGES, THEME_MESSAGES
+  ALERT_STYLES, AUTH_MESSAGES, HOME_MESSAGES, THEME_MESSAGES
 } from './messages';
+
+// Theme Mode Constants
+export const THEME_MODES = {
+  LIGHT: 'light' as const,
+  DARK: 'dark' as const,
+};
+
+// Status Bar Styles
+export const STATUS_BAR_STYLES = {
+  LIGHT: 'light' as const,
+  DARK: 'dark' as const,
+};
+
+// Platform Constants
+export const PLATFORMS = {
+  IOS: 'ios' as const,
+  ANDROID: 'android' as const,
+};
+
+// Keyboard Behavior
+export const KEYBOARD_BEHAVIOR = {
+  PADDING: 'padding' as const,
+  HEIGHT: 'height' as const,
+};
+
+// Icon Names
+export const ICON_NAMES = {
+  LOCK_CLOSED: 'lock-closed' as const,
+  PERSON_ADD: 'person-add' as const,
+  ARROW_BACK: 'arrow-back' as const,
+  LOG_IN: 'log-in' as const,
+  LOG_OUT: 'log-out' as const,
+  CHECKMARK_CIRCLE: 'checkmark-circle' as const,
+  SHIELD_CHECKMARK: 'shield-checkmark' as const,
+  HOME: 'home' as const,
+  STAR: 'star' as const,
+  MAIL: 'mail' as const,
+  PERSON: 'person' as const,
+  SUNNY: 'sunny' as const,
+  MOON: 'moon' as const,
+  EYE_OUTLINE: 'eye-outline' as const,
+  EYE_OFF_OUTLINE: 'eye-off-outline' as const,
+};
+
+// Common Sizes
+export const ICON_SIZES = {
+  SMALL: 16,
+  MEDIUM: 20,
+  LARGE: 24,
+  XLARGE: 28,
+  EXTRA_LARGE: 40,
+  JUMBO: 50,
+};
+
+// Color Constants
+export const COMMON_COLORS = {
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
+  TRANSPARENT: 'transparent',
+  YELLOW: '#FCD34D',
+  DARK_GRAY: '#1F2937',
+  PURPLE: '#A78BFA',
+};
 
 export const READ_ORDER = [
   "1. QUICK_REFERENCE.ts - Get overview in 5 minutes",

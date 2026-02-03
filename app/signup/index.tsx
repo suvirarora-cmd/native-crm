@@ -8,7 +8,6 @@ import {
     KeyboardAvoidingView,
     Platform,
     ScrollView,
-    StyleSheet,
     Text,
     TouchableOpacity,
     View,
@@ -19,16 +18,19 @@ import { CustomButton } from '../../components/CustomButton';
 import { CustomInput } from '../../components/CustomInput';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { useTheme } from '../../hooks/useTheme';
+import { COMMON_COLORS, ICON_NAMES, ICON_SIZES, KEYBOARD_BEHAVIOR, PLATFORMS, STATUS_BAR_STYLES, THEME_MODES } from '../constants';
 import { AUTH_MESSAGES } from '../constants/messages';
+import { commonStyles } from '../styles/commonStyles';
 import { getContainerStyles } from '../styles/containerStyles';
-import { colors } from '../styles/theme';
-import styles from '../styles/signupPage.style';
+import { getSignupStyles } from '../styles/signupPage.style';
 
 const SignupScreen: React.FC = () => {
   const router = useRouter();
   const { isDark } = useTheme();
   const [loading, setLoading] = useState(false);
   const containerStyles = getContainerStyles(isDark);
+  const styles = getSignupStyles(isDark);
+  const themeMode = isDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   const {
     control,
@@ -68,16 +70,16 @@ const SignupScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === PLATFORMS.IOS ? KEYBOARD_BEHAVIOR.PADDING : KEYBOARD_BEHAVIOR.HEIGHT}
       style={containerStyles.container}
     >
-      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <StatusBar style={isDark ? STATUS_BAR_STYLES.LIGHT : STATUS_BAR_STYLES.DARK} />
       <ScrollView
         contentContainerStyle={containerStyles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={commonStyles.flexCenter}>
           {/* Theme Toggle */}
           <View style={containerStyles.themeToggle}>
             <ThemeToggle />
@@ -88,18 +90,13 @@ const SignupScreen: React.FC = () => {
             style={containerStyles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="arrow-back" size={28} color={colors[isDark ? 'dark' : 'light'].text} />
+            <Ionicons name={ICON_NAMES.ARROW_BACK} size={ICON_SIZES.XLARGE} color={containerStyles.header.color} />
           </TouchableOpacity>
 
           {/* Header Section */}
           <View style={containerStyles.headerSection}>
-            <View
-              style={[
-                containerStyles.iconCircle,
-                { backgroundColor: colors[isDark ? 'dark' : 'light'].secondary },
-              ]}
-            >
-              <Ionicons name="person-add" size={40} color="white" />
+            <View style={containerStyles.iconCircleSecondary}>
+              <Ionicons name={ICON_NAMES.PERSON_ADD} size={ICON_SIZES.EXTRA_LARGE} color={COMMON_COLORS.WHITE} />
             </View>
             <Text style={containerStyles.header}>Create Account</Text>
             <Text style={containerStyles.subheader}>Sign up to get started</Text>
@@ -217,16 +214,16 @@ const SignupScreen: React.FC = () => {
               onPress={handleSubmit(onSubmit)}
               loading={loading}
               disabled={loading}
-              icon={<Ionicons name="checkmark-circle" size={20} color="white" />}
+              icon={<Ionicons name={ICON_NAMES.CHECKMARK_CIRCLE} size={ICON_SIZES.MEDIUM} color={COMMON_COLORS.WHITE} />}
             />
 
             {/* Sign In Link */}
             <View style={styles.linkContainer}>
-              <Text style={[styles.linkText, { color: colors[isDark ? 'dark' : 'light'].textSecondary }]}>
+              <Text style={styles.linkText}>
                 Already have an account?{' '}
               </Text>
               <TouchableOpacity onPress={() => router.back()}>
-                <Text style={[styles.linkButton, { color: colors[isDark ? 'dark' : 'light'].primary }]}>
+                <Text style={styles.linkButton}>
                   Sign In
                 </Text>
               </TouchableOpacity>
