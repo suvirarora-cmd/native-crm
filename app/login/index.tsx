@@ -32,7 +32,6 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const containerStyles = getContainerStyles(isDark);
   const styles = getLoginStyles(isDark);
-  const themeMode = isDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   const {
     control,

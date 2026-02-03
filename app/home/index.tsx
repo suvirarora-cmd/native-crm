@@ -18,7 +18,6 @@ const HomeScreen: React.FC = () => {
   const { isDark } = useTheme();
   const containerStyles = getContainerStyles(isDark);
   const styles = getHomeStyles(isDark);
-  const themeMode = isDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   useEffect(() => {
     if (!isLoading && !user) {

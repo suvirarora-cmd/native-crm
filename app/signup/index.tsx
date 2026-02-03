@@ -30,7 +30,6 @@ const SignupScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const containerStyles = getContainerStyles(isDark);
   const styles = getSignupStyles(isDark);
-  const themeMode = isDark ? THEME_MODES.DARK : THEME_MODES.LIGHT;
 
   const {
     control,
