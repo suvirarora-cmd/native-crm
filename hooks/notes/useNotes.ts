@@ -1,6 +1,6 @@
 import { notesApi } from "@/api/notes";
+import { Note } from "@/common/types/Note";
 import { useEffect, useState } from "react";
-import 
 
 export function useNotes(leadId: string) {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -12,8 +12,8 @@ export function useNotes(leadId: string) {
 
     notesApi
       .getByLead(leadId)
-      .then((res) => setNotes(res.data))
-      .catch(setError)
+      .then((res: any) => setNotes(res.data))
+      .catch((err: Error) => setError(err))
       .finally(() => setLoading(false));
   }, [leadId]);
 

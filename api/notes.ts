@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { api } from "./base";
 
 export const notesApi = {
   getByLead(leadId: string) {
