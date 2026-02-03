@@ -31,14 +31,7 @@ export const setTokenInStorage = async (token: string) => {
       });
       return;
     }
-
-    // Fallback for web if ever called (not the focus here)
     await storageManager.setItem('authToken', token);
-    if (Platform.OS === 'web' && typeof document !== 'undefined') {
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 7);
-      document.cookie = `authToken=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Strict`;
-    }
   } catch (error) {
     console.error(AUTH_MESSAGES.ERRORS.ERROR_SETTING_TOKEN, error);
     throw error;
@@ -62,8 +55,7 @@ export const getTokenFromStorage = async () => {
         }
         return parsed.token ?? null;
       } catch {
-        // If legacy plain token was stored, return it
-        return raw;
+        return null;
       }
     }
 
@@ -80,12 +72,7 @@ export const clearTokenFromStorage = async () => {
       await SecureStore.deleteItemAsync('authToken');
       return;
     }
-
     await storageManager.removeItem('authToken');
-    // Clear cookie for web
-    if (Platform.OS === 'web' && typeof document !== 'undefined') {
-      document.cookie = 'authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict';
-    }
   } catch (error) {
     console.error(AUTH_MESSAGES.ERRORS.ERROR_CLEARING_TOKEN, error);
     throw error;
