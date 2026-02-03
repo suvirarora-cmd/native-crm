@@ -1,5 +1,18 @@
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router';
+import React from 'react';
+import { AuthProvider } from '../hooks/context/AuthContext';
+import { ThemeProvider } from '../hooks/context/ThemeContext';
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="login" />
+          <Stack.Screen name="signup" />
+          <Stack.Screen name="home" />
+        </Stack>
+      </AuthProvider>
+    </ThemeProvider>
+  );
 }
