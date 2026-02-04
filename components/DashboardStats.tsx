@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
 import { colors } from '../common/styles/theme';
 import { getLeadsDashboard } from '../api/Leads';
 import styles from '../common/styles/dashboardStats.style';
 import { DASHBOARD_STATS, DASHBOARD_TEXT } from '../common/constants';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface StatCard {
   label: string;
@@ -35,31 +36,37 @@ export const DashboardStats: React.FC = () => {
   const textSecondary = isDark ? colors.dark.textSecondary : colors.light.textSecondary;
   const borderColor = isDark ? colors.dark.border : colors.light.border;
 
-  useEffect(() => {
-    const fetchDashboard = async () => {
-      try {
-        setLoading(true);
-        const data = await getLeadsDashboard();
-        setStatsData({
-          totalLeads: data?.totalLeads ?? 0,
-          leadsByStatus: {
-            new: data?.leadsByStatus?.new ?? 0,
-            contacted: data?.leadsByStatus?.contacted ?? 0,
-            interested: data?.leadsByStatus?.interested ?? 0,
-            converted: data?.leadsByStatus?.converted ?? 0,
-          },
-          assignedLeads: data?.assignedLeads ?? 0,
-          convertedLeads: data?.convertedLeads ?? 0,
-        });
-      } catch (error) {
-        console.error('Error fetching leads:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboard();
+  const fetchDashboard = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await getLeadsDashboard();
+      setStatsData({
+        totalLeads: data?.totalLeads ?? 0,
+        leadsByStatus: {
+          new: data?.leadsByStatus?.new ?? 0,
+          contacted: data?.leadsByStatus?.contacted ?? 0,
+          interested: data?.leadsByStatus?.interested ?? 0,
+          converted: data?.leadsByStatus?.converted ?? 0,
+        },
+        assignedLeads: data?.assignedLeads ?? 0,
+        convertedLeads: data?.convertedLeads ?? 0,
+      });
+    } catch (error) {
+      console.error('Error fetching leads:', error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchDashboard();
+  }, [fetchDashboard]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchDashboard();
+    }, [fetchDashboard])
+  );
 
   const stats: StatCard[] = DASHBOARD_STATS.map((stat) => {
     const value =

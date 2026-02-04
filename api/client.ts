@@ -1,11 +1,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
-
- 
-
-
-const BASE_URL = process.env.API_URL
+import { ENV } from '@/common/config/env.config';
+const BASE_URL = ENV.API_URL;
 
 const getAsyncStorage = () => {
   if (typeof AsyncStorage !== 'undefined' && AsyncStorage !== null) {
@@ -23,6 +20,10 @@ const getAsyncStorage = () => {
 
 const storageManager = getAsyncStorage();
 
+
+if (!BASE_URL) {
+  console.error('Backend API URL not configured. Set EXPO_PUBLIC_BACKEND_URL or API_URL.');
+}
 
 const client = axios.create({
   baseURL: BASE_URL,

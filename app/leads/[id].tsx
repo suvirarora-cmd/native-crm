@@ -41,8 +41,12 @@ export default function LeadDetailScreen() {
       
       const updatedLead = await updateLeadStatus(lead._id, newStatus);
       
-      setLead(updatedLead); 
+      setLead((prev) => (prev ? { ...prev, status: newStatus } : prev));
+      if (updatedLead) {
+        setLead(updatedLead);
+      }
       Alert.alert('Success', `Status updated to ${newStatus}`);
+      await fetchLeadDetails();
     } catch (error: any) {
       console.error("Update failed:", error);
       const msg = error.response?.data?.message || 'Failed to update status';
