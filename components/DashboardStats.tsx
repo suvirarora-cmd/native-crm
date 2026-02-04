@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from '../hooks/useTheme';
-import { colors, spacing, borderRadius, fontSize } from '../common/styles/theme';
-import { getLeads } from '../api/Leads';
-import { Lead, LeadStatus } from '../common/types/Lead';
+import { colors } from '../common/styles/theme';
+import { getLeadsDashboard } from '../api/Leads';
+import styles from '../common/styles/dashboardStats.style';
+import { DASHBOARD_STATS, DASHBOARD_TEXT } from '../common/constants';
 
 interface StatCard {
   label: string;
@@ -15,7 +16,17 @@ interface StatCard {
 export const DashboardStats: React.FC = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [leads, setLeads] = useState<Lead[]>([]);
+  const [statsData, setStatsData] = useState({
+    totalLeads: 0,
+    leadsByStatus: {
+      new: 0,
+      contacted: 0,
+      interested: 0,
+      converted: 0,
+    },
+    assignedLeads: 0,
+    convertedLeads: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   const bgColor = isDark ? colors.dark.background : colors.light.background;
@@ -25,11 +36,21 @@ export const DashboardStats: React.FC = () => {
   const borderColor = isDark ? colors.dark.border : colors.light.border;
 
   useEffect(() => {
-    const fetchLeads = async () => {
+    const fetchDashboard = async () => {
       try {
         setLoading(true);
-        const data = await getLeads();
-        setLeads(data);
+        const data = await getLeadsDashboard();
+        setStatsData({
+          totalLeads: data?.totalLeads ?? 0,
+          leadsByStatus: {
+            new: data?.leadsByStatus?.new ?? 0,
+            contacted: data?.leadsByStatus?.contacted ?? 0,
+            interested: data?.leadsByStatus?.interested ?? 0,
+            converted: data?.leadsByStatus?.converted ?? 0,
+          },
+          assignedLeads: data?.assignedLeads ?? 0,
+          convertedLeads: data?.convertedLeads ?? 0,
+        });
       } catch (error) {
         console.error('Error fetching leads:', error);
       } finally {
@@ -37,45 +58,24 @@ export const DashboardStats: React.FC = () => {
       }
     };
 
-    fetchLeads();
+    fetchDashboard();
   }, []);
 
-  const countByStatus = (status: LeadStatus): number => {
-    return leads.filter((lead: Lead) => lead.status === status).length;
-  };
+  const stats: StatCard[] = DASHBOARD_STATS.map((stat) => {
+    const value =
+      stat.key === 'totalLeads'
+        ? statsData.totalLeads
+        : stat.key === 'assignedLeads'
+        ? statsData.assignedLeads
+        : statsData.leadsByStatus[stat.key];
 
-  const stats: StatCard[] = [
-    {
-      label: 'Total Leads',
-      value: leads.length,
-      icon: '📇',
-      color: '#3B82F6',
-    },
-    {
-      label: 'New',
-      value: countByStatus('new'),
-      icon: '✨',
-      color: '#8B5CF6',
-    },
-    {
-      label: 'Contacted',
-      value: countByStatus('contacted'),
-      icon: '📞',
-      color: '#F59E0B',
-    },
-    {
-      label: 'Interested',
-      value: countByStatus('interested'),
-      icon: '👁️',
-      color: '#10B981',
-    },
-    {
-      label: 'Converted',
-      value: countByStatus('converted'),
-      icon: '🎉',
-      color: '#EC4899',
-    },
-  ];
+    return {
+      label: stat.label,
+      value,
+      icon: stat.icon,
+      color: stat.color,
+    };
+  });
 
   if (loading) {
     return (
@@ -87,7 +87,7 @@ export const DashboardStats: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
-      <Text style={[styles.sectionTitle, { color: textColor }]}>Dashboard</Text>
+      <Text style={[styles.sectionTitle, { color: textColor }]}>{DASHBOARD_TEXT.TITLE}</Text>
 
       {/* Main Stats Grid */}
       <View style={styles.statsGrid}>
@@ -110,7 +110,7 @@ export const DashboardStats: React.FC = () => {
       </View>
 
       {/* Status Breakdown */}
-      <Text style={[styles.breakdownTitle, { color: textColor }]}>Status Breakdown</Text>
+      <Text style={[styles.breakdownTitle, { color: textColor }]}> {DASHBOARD_TEXT.STATUS_BREAKDOWN}</Text>
       <View style={styles.statusContainer}>
         {stats.slice(2).map((stat, index) => (
           <View
@@ -136,93 +136,3 @@ export const DashboardStats: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: spacing.lg,
-    marginVertical: spacing.md,
-  },
-  sectionTitle: {
-    fontSize: fontSize.lg,
-    fontWeight: '600',
-    marginBottom: spacing.md,
-  },
-  breakdownTitle: {
-    fontSize: fontSize.base,
-    fontWeight: '600',
-    marginBottom: spacing.md,
-    marginTop: spacing.lg,
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    marginBottom: spacing.lg,
-  },
-  statCard: {
-    flex: 1,
-    borderRadius: borderRadius.md,
-    padding: spacing.md,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 120,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  statIcon: {
-    fontSize: 28,
-    marginBottom: spacing.sm,
-  },
-  statValue: {
-    fontSize: fontSize.xxl,
-    fontWeight: '700',
-    marginBottom: spacing.xs,
-  },
-  statLabel: {
-    fontSize: fontSize.xs,
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  statusContainer: {
-    gap: spacing.sm,
-  },
-  statusRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.md,
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  statusLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  statusIcon: {
-    fontSize: 20,
-  },
-  statusText: {
-    fontSize: fontSize.sm,
-    fontWeight: '500',
-  },
-  statusBadge: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: borderRadius.full,
-  },
-  statusCount: {
-    fontSize: fontSize.base,
-    fontWeight: '600',
-  },
-});

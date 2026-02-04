@@ -4,7 +4,9 @@ import { Platform } from 'react-native';
 
  
 
-const BASE_URL = process.env.EXPO_PUBLIC_BACKEND_URL
+
+const BASE_URL = process.env.API_URL
+
 const getAsyncStorage = () => {
   if (typeof AsyncStorage !== 'undefined' && AsyncStorage !== null) {
     return AsyncStorage;

@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Alert, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, SafeAreaView, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
 import { colors } from '../../common/styles/theme';
 import { DashboardStats } from '../../components/DashboardStats';
+import styles from '../../common/styles/homeScreen.style';
+import { HOME_ICONS, HOME_TEXT } from '../../common/constants';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -41,21 +43,27 @@ export default function HomeScreen() {
         
         <View style={styles.topBar}>
           <TouchableOpacity onPress={toggleTheme} style={styles.iconButton}>
-            <Text style={{ fontSize: 20 }}>{isDark ? '☀️' : '🌙'}</Text>
+            <Text style={{ fontSize: 20 }}>{isDark ? HOME_ICONS.THEME_LIGHT : HOME_ICONS.THEME_DARK}</Text>
           </TouchableOpacity>
           
           <TouchableOpacity onPress={handleLogout}>
-             <Text style={{ color: colors[theme].error, fontWeight: '600' }}>Log Out</Text>
+             <Text style={{ color: colors[theme].error, fontWeight: '600' }}>{HOME_TEXT.LOGOUT}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.header}>
           <Text style={[styles.title, { color: textColor }]}>
-            Hello, {user?.name?.split(' ')[0] || 'User'}! 
+            {HOME_TEXT.GREETING}, {user?.name?.split(' ')[0] || HOME_TEXT.ROLE_FALLBACK}! 
           </Text>
           <Text style={[styles.subtitle, { color: subTextColor }]}>
-            Ready to close some deals?
+            {HOME_TEXT.READY}
           </Text>
+          <View style={styles.roleRow}>
+            <Text style={styles.roleIcon}>{HOME_ICONS.ROLE}</Text>
+            <Text style={[styles.roleText, { color: subTextColor }]}> 
+              {user?.role ? `${user.role}` : HOME_TEXT.ROLE_FALLBACK}
+            </Text>
+          </View>
         </View>
 
         <DashboardStats />
@@ -65,24 +73,24 @@ export default function HomeScreen() {
           style={[styles.card, { backgroundColor: cardColor, borderColor: isDark ? '#374151' : '#E5E7EB' }]}
         >
           <View style={styles.iconCircle}>
-            <Text style={{ fontSize: 28 }}>📇</Text>
+            <Text style={{ fontSize: 28 }}>{HOME_ICONS.MANAGE_LEADS}</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={[styles.cardTitle, { color: textColor }]}>Manage Leads</Text>
+            <Text style={[styles.cardTitle, { color: textColor }]}>{HOME_TEXT.MANAGE_TITLE}</Text>
             <Text style={[styles.cardDesc, { color: subTextColor }]}>
-              View pipeline & update status
+              {HOME_TEXT.MANAGE_DESC}
             </Text>
           </View>
-          <Text style={{ fontSize: 20, color: subTextColor }}>→</Text>
+          <Text style={{ fontSize: 20, color: subTextColor }}>{HOME_ICONS.ARROW}</Text>
         </TouchableOpacity>
 
         <View style={[styles.card, { backgroundColor: cardColor, opacity: 0.6, borderColor: isDark ? '#374151' : '#E5E7EB' }]}>
            <View style={[styles.iconCircle, { backgroundColor: isDark ? '#374151' : '#F3F4F6' }]}>
-            <Text style={{ fontSize: 28 }}>📝</Text>
+            <Text style={{ fontSize: 28 }}>{HOME_ICONS.NOTES}</Text>
           </View>
           <View>
-            <Text style={[styles.cardTitle, { color: textColor }]}>Notes (Coming Soon)</Text>
-            <Text style={[styles.cardDesc, { color: subTextColor }]}>Task Bucket C</Text>
+            <Text style={[styles.cardTitle, { color: textColor }]}>{HOME_TEXT.NOTES_TITLE}</Text>
+            <Text style={[styles.cardDesc, { color: subTextColor }]}>{HOME_TEXT.NOTES_DESC}</Text>
           </View>
         </View>
 
@@ -90,49 +98,3 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: { flex: 1 },
-  container: { flex: 1, paddingTop: 24, paddingHorizontal: 24 },
-  
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  iconButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: 'rgba(0,0,0,0.05)',
-  },
-
-  header: { marginBottom: 32 },
-  title: { fontSize: 32, fontWeight: '800', marginBottom: 8 },
-  subtitle: { fontSize: 16 },
-
-  card: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    borderRadius: 20,
-    marginBottom: 16,
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  iconCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#EFF6FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  cardTitle: { fontSize: 18, fontWeight: '700', marginBottom: 4 },
-  cardDesc: { fontSize: 14 },
-});
