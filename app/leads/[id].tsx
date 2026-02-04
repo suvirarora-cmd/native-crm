@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
   ActivityIndicator,
-  TouchableOpacity,
   Alert,
   SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { getLead, updateLeadStatus } from "../../api/Leads";
 import { Lead } from "../../common/types/Lead";
-
+import AddNote from "@/components/notes/AddNote";
+import { useNotes } from "@/hooks/notes/useNotes";
+import NoteList from "@/components/notes/NoteList";
 export default function LeadDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
 
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
-
+  const notesState = useNotes(id ?? "");
   useEffect(() => {
     console.log("Navigated to Lead Detail with ID:", id);
     if (id) {
@@ -53,8 +55,12 @@ export default function LeadDetailScreen() {
 
       const updatedLead = await updateLeadStatus(lead._id, newStatus);
 
-      setLead(updatedLead);
+      setLead((prev) => (prev ? { ...prev, status: newStatus } : prev));
+      if (updatedLead) {
+        setLead(updatedLead);
+      }
       Alert.alert("Success", `Status updated to ${newStatus}`);
+      await fetchLeadDetails();
     } catch (error: any) {
       console.error("Update failed:", error);
       const msg = error.response?.data?.message || "Failed to update status";
@@ -143,6 +149,20 @@ export default function LeadDetailScreen() {
           * Ensure you follow the workflow order (New → Contacted → Interested →
           Converted)
         </Text>
+        <View style={styles.notesSection}>
+          <View style={styles.addNoteCard}>
+            <AddNote onAdd={notesState.createNot} />
+          </View>
+
+          <View style={{ marginTop: 16 }}>
+            <NoteList
+              leadId={lead._id}
+              notes={notesState.notes}
+              loading={notesState.loading}
+              error={notesState.error}
+            />
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -204,4 +224,12 @@ const styles = StyleSheet.create({
   btnText: { fontWeight: "600" },
   activeText: { color: "#1E40AF" },
   inactiveText: { color: "#374151" },
+  notesSection: { marginTop: 24 },
+  addNoteCard: {
+    padding: 16,
+    backgroundColor: "#F3F4F6",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+  },
 });

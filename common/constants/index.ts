@@ -5,6 +5,9 @@ export {
   THEME_MESSAGES,
 } from "./messages";
 
+export { DASHBOARD_TEXT, DASHBOARD_STATS } from "./dashboard";
+export { HOME_TEXT, HOME_ICONS } from "./home";
+
 export const READ_ORDER = [
   "1. QUICK_REFERENCE.ts - Get overview in 5 minutes",
   "2. AUTH_GUIDE.md - Understand complete flows",
