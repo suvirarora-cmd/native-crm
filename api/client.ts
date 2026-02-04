@@ -2,10 +2,9 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
+ 
 
-
-const BASE_URL = 'http://10.50.135.29:3000/api'; 
-
+const BASE_URL = process.env.EXPO_PUBLIC_BACKEND_URL
 const getAsyncStorage = () => {
   if (typeof AsyncStorage !== 'undefined' && AsyncStorage !== null) {
     return AsyncStorage;
