@@ -40,8 +40,8 @@ export const DashboardStats: React.FC = () => {
     fetchLeads();
   }, []);
 
-  const countByStatus = (status: LeadStatus) => {
-    return leads.filter((lead) => lead.status === status).length;
+  const countByStatus = (status: LeadStatus): number => {
+    return leads.filter((lead: Lead) => lead.status === status).length;
   };
 
   const stats: StatCard[] = [
