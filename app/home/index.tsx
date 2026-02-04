@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Alert, SafeAreaView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
 import { colors } from '../../common/styles/theme';
+import { DashboardStats } from '../../components/DashboardStats';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: bgColor }]}>
-      <View style={styles.container}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         
         <View style={styles.topBar}>
           <TouchableOpacity onPress={toggleTheme} style={styles.iconButton}>
@@ -56,6 +57,8 @@ export default function HomeScreen() {
             Ready to close some deals?
           </Text>
         </View>
+
+        <DashboardStats />
 
         <TouchableOpacity 
           onPress={() => router.push('/leads')}
@@ -83,14 +86,14 @@ export default function HomeScreen() {
           </View>
         </View>
 
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1 },
-  container: { flex: 1, padding: 24 },
+  container: { flex: 1, paddingTop: 24, paddingHorizontal: 24 },
   
   topBar: {
     flexDirection: 'row',
