@@ -1,31 +1,46 @@
-import { notesApi } from "@/api/notes";
-import { useEffect, useState } from "react";
-import 
+import { useCallback, useEffect, useState } from "react";
+import { createNote, getNotesByLeadId } from "../../api/notes";
+import type { Note } from "../../common/types/Note";
 
-export function useNotes(leadId: string) {
+export const useNotes = (leadId: string) => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    setLoading(true);
-
-    notesApi
-      .getByLead(leadId)
-      .then((res) => setNotes(res.data))
-      .catch(setError)
-      .finally(() => setLoading(false));
+  const refetch = useCallback(async () => {
+    if (!leadId) return;
+    try {
+      setLoading(true);
+      const data = await getNotesByLeadId(leadId);
+      setNotes(data);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching notes:", err);
+      setError("Failed to fetch notes");
+    } finally {
+      setLoading(false);
+    }
   }, [leadId]);
 
-  const createNote = async (text: string) => {
-    const res = await notesApi.create(leadId, text);
-    setNotes((prev) => [...prev, res.data]);
+  useEffect(() => {
+    refetch();
+  }, [leadId, refetch]);
+
+  const createNot = async (text: string): Promise<boolean> => {
+    if (!leadId) return false;
+    try {
+      setLoading(true);
+      await createNote(leadId, { text });
+      await refetch();
+      return true;
+    } catch (err) {
+      console.error("Error creating note:", err);
+      setError("Failed to create note");
+      return false;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return {
-    notes,
-    loading,
-    error,
-    createNote,
-  };
-}
+  return { notes, loading, error, createNot, refetch };
+};
